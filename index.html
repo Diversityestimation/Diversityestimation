@@ -319,8 +319,6 @@ async function predict_name_gender(names) {
 
     document.getElementById('gender').value = predictions;
 
-    document.getElementById('gender').value = document.getElementById("gender").value.map(function(e) {return softmax(e)});
-
 
 
 }
