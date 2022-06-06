@@ -77,9 +77,6 @@ var name_gender_dictionary = {'!': 1,
  'y': 29,
  'z': 30};
 
- 
-
- 
 
 var name_ethnicity_dictionary = {'!': 1,
  '+': 2,
@@ -176,8 +173,6 @@ var name_gender_model;
 var name_ethnicity_model;
 
 
-
-
 async function loadModels() {
 
   console.log("model loading..");
@@ -196,7 +191,6 @@ async function loadModels() {
 
   document.getElementById("runbutton").style.display = "inline"
 
-  
 
 }
 
@@ -417,7 +411,7 @@ async function predict_name_ethnicity(names) {
 var table = [];
 
 var headers = ["Male","Female"].concat(Object.values(ethnicity_dictionary))
-
+var ethnicityheaders = Object.values(ethnicity_dictionary)
 async function analyze(names){
 
     await predict_name_gender(names);
@@ -672,7 +666,9 @@ var swap = function (nums, i, j) {
 
 }
 
-
+let decor = (v, i) => [v, i];          // set index to value
+let undecor = a => a[1];               // leave only index
+let argsort = arr => arr.map(decor).sort().map(undecor);
 
 async function run() {
 
@@ -708,32 +704,33 @@ async function run() {
 
 	    var femalepred = row[1];
 
-	    var ethnicities = row.slice(2, row.length)
-		console.log(ethnicities)
-	    var first_ethnicity_prob = findKthLargest(ethnicities,1)
-		console.log(first_ethnicity_prob)
-	    var first_ethnicity_position = row.indexOf(first_ethnicity_prob)
+	    var ethnicitiesrow = row.slice(2, row.length)
+		console.log(ethnicitiesrow)
+		
+		
+	    var first_ethnicity_position = argsort(ethnicitiesrow)[ethnicitiesrow.length - 1]
+        var second_ethnicity_position = argsort(ethnicitiesrow)[ethnicitiesrow.length - 2]
+        var third_ethnicity_position = argsort(ethnicitiesrow)[ethnicitiesrow.length - 3]
+        console.log(first_ethnicity_position)
+        console.log(second_ethnicity_position)
+        console.log(third_ethnicity_position)
+        
+	    var first_ethnicity_prob = findKthLargest(ethnicitiesrow,1)
+	    var first_ethnicity = ethnicityheaders[first_ethnicity_position]
 
-	    var first_ethnicity = headers[first_ethnicity_position]
 
+        
+	    var second_ethnicity_prob = findKthLargest(ethnicitiesrow,2)
+	    var second_ethnicity = ethnicityheaders[second_ethnicity_position]
 	    
+	    var third_ethnicity_prob = findKthLargest(ethnicitiesrow,3)
+	    var third_ethnicity = ethnicityheaders[third_ethnicity_position]
 
-	    var second_ethnicity_prob = findKthLargest(ethnicities,2)
+        if (first_ethnicity_prob == 1){second_ethnicity = "N/A"}
+	    if (first_ethnicity_prob == 1){third_ethnicity = "N/A"}
 
-	    var second_ethnicity_position = row.indexOf(second_ethnicity_prob)
-
-	    var second_ethnicity = headers[second_ethnicity_position]
-
+        if (first_ethnicity_prob + second_ethnicity_prob >= 1){third_ethnicity = "N/A"}
 	    
-
-	    var third_ethnicity_prob = findKthLargest(ethnicities,3)
-
-	    var third_ethnicity_position = row.indexOf(third_ethnicity_prob)
-
-	    var third_ethnicity = headers[third_ethnicity_position]
-
-	    
-
 	    var tablerow = result_table.insertRow();
 
 	    
@@ -799,8 +796,7 @@ async function run() {
 
 	    document.getElementById("progressbar").style.width = ((n+1) / number_names) + "%"
 
-	    
-
+	   
 	    
 
 	}
@@ -824,4 +820,3 @@ loadModels()
 
 
 </html>
-
