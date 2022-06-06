@@ -676,9 +676,14 @@ async function run() {
 
     document.getElementById("result_table").innerHTML = "<thead><tr><th>Name</th> <th>Gender</th> <th>Gender %</th> <th>Ethnicity <br> 1</th> <th>Ethnicity 1%</th> <th>Ethnicity <br> 2</th> <th>Ethnicity 2%</th><th>Ethnicity <br> 3</th> <th>Ethnicity 3%</th> </tr> </thead><tbody></tbody>"
 
-	var names = document.getElementById("inputnames").value.trim().split('\n');
-
+	var names1 = document.getElementById("inputnames").value.trim().split('\n');
+	var names = []
+	for (let j=0; j<names1; j++){
+		if (names1[j].trim().length > 0){names.push(names1[j])}	
+	
+	}
 	var number_names = names.length;
+	if(numbernames == 0){return}
 
 	console.log(names);
 
