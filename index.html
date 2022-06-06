@@ -676,7 +676,7 @@ async function run() {
 
     document.getElementById("result_table").innerHTML = "<thead><tr><th>Name</th> <th>Gender</th> <th>Gender %</th> <th>Ethnicity <br> 1</th> <th>Ethnicity 1%</th> <th>Ethnicity <br> 2</th> <th>Ethnicity 2%</th><th>Ethnicity <br> 3</th> <th>Ethnicity 3%</th> </tr> </thead><tbody></tbody>"
 
-	var names = document.getElementById("inputnames").value.split('\n');
+	var names = document.getElementById("inputnames").value.trim().split('\n');
 
 	var number_names = names.length;
 
